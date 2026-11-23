@@ -14,7 +14,9 @@ function assign(ids:string[], families:Record<string,string|null>):string[]|null
   for(const receiver of options){result[i]=receiver;used.add(receiver);if(backtrack(i+1,used))return true;used.delete(receiver);}
   return false;
  }
- if(!backtrack(0,new Set())) return null;\n const byGiver = new Map(order.map((giver,i)=>[giver,result[i]]));\n return ids.map(id=>byGiver.get(id)!);
+ if(!backtrack(0,new Set())) return null;
+ const byGiver = new Map(order.map((giver,i)=>[giver,result[i]]));
+ return ids.map(id=>byGiver.get(id)!);
 }
 export async function POST(){
  if(!await isAdmin())return NextResponse.json({error:"Não autorizado."},{status:401});
