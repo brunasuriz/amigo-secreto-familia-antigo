@@ -1,0 +1,6 @@
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { isAdmin } from "@/lib/session";
+export async function GET(){if(!await isAdmin())return NextResponse.json({error:"Não autorizado."},{status:401});const {data,error}=await db().from("participants").select("id,name,photo_url,family_id,drawn").order("name");if(error)return NextResponse.json({error:error.message},{status:500});return NextResponse.json(data);}
+export async function POST(req:Request){if(!await isAdmin())return NextResponse.json({error:"Não autorizado."},{status:401});const b=await req.json();if(!b.name?.trim())return NextResponse.json({error:"Informe o nome."},{status:400});const {data,error}=await db().from("participants").insert({name:b.name.trim(),photo_url:b.photo_url||null,family_id:b.family_id||null}).select().single();if(error)return NextResponse.json({error:error.message},{status:400});return NextResponse.json(data);}
+export async function DELETE(req:Request){if(!await isAdmin())return NextResponse.json({error:"Não autorizado."},{status:401});const id=new URL(req.url).searchParams.get("id");if(!id)return NextResponse.json({error:"ID ausente."},{status:400});const {error}=await db().from("participants").delete().eq("id",id);if(error)return NextResponse.json({error:error.message},{status:400});return NextResponse.json({ok:true});}
