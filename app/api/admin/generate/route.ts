@@ -14,7 +14,9 @@ function assign(ids:string[], families:Record<string,string|null>):string[]|null
   for(const receiver of options){result[i]=receiver;used.add(receiver);if(backtrack(i+1,used))return true;used.delete(receiver);}
   return false;
  }
- if(!backtrack(0,new Set())) return null;
+if(!backtrack(0,new Set())) return null;
+const byGiver = new Map(order.map((giver,i)=>[giver,result[i]]));
+return ids.map(id=>byGiver.get(id)!);
  const byGiver = new Map(order.map((giver,i)=>[giver,result[i]]));
  return ids.map(id=>byGiver.get(id)!);
 }
