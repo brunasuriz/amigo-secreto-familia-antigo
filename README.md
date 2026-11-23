@@ -49,3 +49,11 @@ Este projeto deve ser colocado em um repositório GitHub e importado pela Vercel
 - A geração exige pelo menos 3 participantes e pode falhar se a composição dos núcleos tornar impossível uma distribuição sem pares internos. Nesse caso, reveja os núcleos ou decida quais exceções serão permitidas.
 - Para simplificar a primeira versão, as fotos são cadastradas por URL. Recomenda-se usar links de imagens que não exijam login.
 - Esta é uma base funcional inicial. Antes de usar com dados reais, teste com participantes fictícios e valide o fluxo completo.
+
+## Atualização: fotos e edição do cadastro
+
+O painel agora permite enviar fotos diretamente (JPG, PNG ou WEBP, até 5 MB), editar participantes e renomear núcleos familiares. Também permite excluir participantes e núcleos antes de gerar o sorteio.
+
+Para habilitar o envio de fotos, execute novamente o arquivo `supabase/schema.sql` no SQL Editor do Supabase. Ele cria (ou confirma) o bucket público `participant-photos`. O envio dos arquivos é feito por uma rota protegida, acessível somente após login administrativo.
+
+Depois que o sorteio tiver sido gerado, a edição de nome e foto continua disponível. A alteração de núcleo e a exclusão de participantes/núcleos ficam bloqueadas para não invalidar os pares já definidos. Para reorganizar cadastros após gerar o sorteio, use primeiro "Reiniciar resultados".
